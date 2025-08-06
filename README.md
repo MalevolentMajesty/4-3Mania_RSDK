@@ -1,7 +1,12 @@
 <img src=/logo.png alt="Woah there">
-_Because one woman wanted to play Sonic Mania on her CRT_
+<i>Because one woman wanted to play Sonic Mania on her CRT</i>
 
 This is a modified version of the Sonic Mania decompilation (by Rubberduckycooly & co.) which modifies many .c files within the project to make the game work within a 4:3 aspect ratio, including arena & timing changes to bosses to accomodate, some small fixes for the narrower width, and other changes. This mod is not intended to work alone, instead, requiring a seperate mod for the Mania Mod Loader / in-game mod loader with tileset/scene edits, along with the ability to manually tweak your settings to render the game in 4:3. You can find the mod to pair, including a readme to change your video settings in the Releases section.
+
+# **NOTES**
+* I haven't compiled the changed code into its own DLL as that is knowledge I am yet to figure out, so you'll have to compile a full Game.DLL yourself and use a seperate installation of the decompilation.
+* This requires you to compile with the Plus DLC enabled.
+* I am not responsible for any issues found when using this mod in 16:9. I have supplied the other necessary files which are meant to pair with this.
 
 The following in the readme is from the regular decompilation readme, left untouched.
 
