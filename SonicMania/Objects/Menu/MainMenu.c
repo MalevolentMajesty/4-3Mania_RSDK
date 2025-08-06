@@ -19,9 +19,12 @@ void MainMenu_StaticUpdate(void)
     EntityUIControl *control = MainMenu->menuControl;
 
     if (control && control->active) {
-        EntityUIDiorama *diorama         = MainMenu->diorama;
-        MainMenu->confirmPrompt->visible = ((int32)(control->shifter->shiftOffset.y & 0xFFFF0000)) > -0x700000;
-        EntityUIButton *button           = control->buttons[control->lastButtonID];
+        EntityUIDiorama *diorama = MainMenu->diorama;
+        
+        MainMenu->confirmPrompt->visible = ((int32)(control->shifter->shiftOffset.y & 0xFFFF0000)) > -0x600000;
+        if (MainMenu->backPrompt)
+            MainMenu->backPrompt->visible = MainMenu->confirmPrompt->visible;
+        EntityUIButton *button = control->buttons[control->lastButtonID];
 
         if (button) {
             switch (button->frameID) {
@@ -65,10 +68,14 @@ void MainMenu_Initialize(void)
     EntityUIControl *menuControl = MainMenu->menuControl;
 
     foreach_all(UIButtonPrompt, prompt)
-    {
-        if (UIControl_ContainsPos(menuControl, &prompt->position) && prompt->buttonID == 0)
+{
+    if (UIControl_ContainsPos(menuControl, &prompt->position)) {
+        if (prompt->buttonID == 0)
             MainMenu->confirmPrompt = prompt;
+        else if (prompt->buttonID == 1)
+            MainMenu->backPrompt = prompt;
     }
+}
 
     foreach_all(UIDiorama, diorama)
     {

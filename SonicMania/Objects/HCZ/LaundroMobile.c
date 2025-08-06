@@ -67,6 +67,10 @@ void LaundroMobile_Create(void *data)
 
             switch (self->type) {
                 case LAUNDROMOBILE_BOSS:
+                    // Only shift if screen is 4:3 (320px wide)
+                    if (ScreenInfo->size.x == 320)
+                        self->position.x += (53 << 16); // shift right by 53px
+
                     self->active    = ACTIVE_BOUNDS;
                     self->visible   = false;
                     self->drawGroup = Zone->objectDrawGroup[0] + 1;
@@ -641,7 +645,10 @@ void LaundroMobile_StateBoss_SetupArena_Phase1(void)
     RSDK_GET_ENTITY(SceneInfo->entitySlot + 1, BreakBar)->releaseTimer = 0;
     player1->jumpPress                                                 = false;
 
-    if (player1->position.x > self->position.x + 0x1700000) {
+    // ADDITION: Move trigger offset for Eggman to spawn to the left to match with moving him to the right
+    int32 triggerOffset = (ScreenInfo->size.x == 320) ? (53 << 16) : 0;
+
+    if (player1->position.x > self->position.x + 0x1700000 - triggerOffset) {
         Music_TransitionTrack(TRACK_EGGMAN1, 0.0125);
         RSDK.GetTileLayer(4)->drawGroup[0] = DRAWGROUP_COUNT;
         LaundroMobile->nextLoopPoint       = 0;

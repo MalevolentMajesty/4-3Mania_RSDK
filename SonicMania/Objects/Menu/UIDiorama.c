@@ -90,7 +90,7 @@ void UIDiorama_Create(void *data)
 
         self->active    = ACTIVE_BOUNDS;
         self->visible   = true;
-        self->drawGroup = 2;
+        self->drawGroup = 1; // Moves drawGroup to 1 so buttons can overlay without issue
     }
 }
 
@@ -443,7 +443,7 @@ void UIDiorama_State_Competition(void)
 
         info->terrainPos.y = (RSDK.Sin512(UIWidgets->timer) + 512) << 10;
 
-        info->platformPos.x = self->position.x + 0x2B0000;
+        info->platformPos.x = self->position.x + 0x3F0000; // Moves Competition Platform to the right
         info->platformPos.y = self->position.y + 0x320000;
         info->platformPos.y += RSDK.Sin1024(5 * (UIWidgets->timer + 128)) << 11;
         info->platformPos.y &= 0xFFFF0000;
@@ -456,14 +456,14 @@ void UIDiorama_State_Competition(void)
         info->knuxPos.x = info->platformPos.x;
         info->knuxPos.y = info->platformPos.y - 0x180000;
         if (API.CheckDLC(DLC_PLUS))
-            info->knuxPos.x -= 0x100000;
+            info->knuxPos.x -= 0x120000; // Moves Knux
 
         info->rayPos.x = self->position.x + 0x360000;
         info->rayPos.y = self->position.y - 0x350000;
         info->rayPos.y += RSDK.Sin256(info->rayAngle) << 10;
         info->rayAngle = (info->rayAngle + 1) & 0xFF;
 
-        info->mightyPos.x = info->platformPos.x + 0x100000;
+        info->mightyPos.x = info->platformPos.x + 0x140000; // Moves Mighty
         info->mightyPos.y = info->platformPos.y - 0x180000;
 
         RSDK.ProcessAnimation(&info->platformAnimator);
@@ -728,14 +728,14 @@ void UIDiorama_Draw_EncoreMode(void)
     else {
         self->inkEffect = INK_NONE;
         drawPos.y += 0x200000;
-        drawPos.x += 0x500000;
+        drawPos.x += 0x450000;
         int32 x = drawPos.x;
         RSDK.DrawSprite(&info->buttonAnimator, &drawPos, false);
 
-        drawPos.x += 0xE0000;
+        drawPos.x += 0xB0000;
         RSDK.DrawSprite(&info->mightyAnimator, &drawPos, false);
 
-        drawPos.x -= 0x1C0000;
+        drawPos.x -= 0x180000;
         RSDK.DrawSprite(&info->rayAnimator, &drawPos, false);
 
         drawPos.x = x;
@@ -898,7 +898,7 @@ void UIDiorama_Draw_Options(void)
         // Draw Constellations
         for (int32 i = 0; i < 3; ++i) {
             drawPos = self->position;
-            drawPos.x += positions[i]->x;
+            drawPos.x += positions[i]->x - (32 << 16); // Move left by 32 pixels
             drawPos.y += positions[i]->y;
             drawPos.x += offsets[i]->x;
             drawPos.y += offsets[i]->y;
@@ -916,7 +916,7 @@ void UIDiorama_Draw_Options(void)
         drawPos.y       = self->position.y + 0x1E0000;
         RSDK.DrawSprite(&info->knuxAnimator, &drawPos, false);
 
-        drawPos.x = self->position.x + 0x6C0000;
+        drawPos.x = self->position.x + 0x5D0000;
         drawPos.y = self->position.y + 0x210000;
         RSDK.DrawSprite(&info->tailsAnimator, &drawPos, false);
 

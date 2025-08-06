@@ -415,11 +415,15 @@ void CrimsonEye_StateContainer_SetupArena(void)
     if (++self->timer >= 2) {
         self->timer = 0;
 
+        // ADDITIONS: Lock camera to 4:3, centered on boss ---
+        int32 centerX = self->position.x >> 16;
+        Zone->playerBoundActiveL[0] = true;
         Zone->playerBoundActiveR[0] = true;
         Zone->playerBoundActiveB[0] = true;
-        Zone->cameraBoundsR[0]      = (self->position.x >> 16) + ScreenInfo->center.x + 80;
-        Zone->cameraBoundsB[0]      = (self->position.y >> 16) + 124;
-        Zone->cameraBoundsT[0]      = Zone->cameraBoundsB[0] - ScreenInfo->size.y;
+        Zone->cameraBoundsL[0] = centerX - 160;
+        Zone->cameraBoundsR[0] = centerX + 160;
+        Zone->cameraBoundsB[0] = (self->position.y >> 16) + 124;
+        Zone->cameraBoundsT[0] = Zone->cameraBoundsB[0] - 240;
 
         self->active = ACTIVE_NORMAL;
         CREATE_ENTITY(TMZ1Setup, NULL, 0, 0);
@@ -454,7 +458,7 @@ void CrimsonEye_StateContainer_AwaitPlayer(void)
 
     if (player1->position.x > self->position.x - 0x500000) {
         Zone->playerBoundActiveL[0] = true;
-        Zone->cameraBoundsL[0]      = (self->position.x >> 16) - ScreenInfo->center.x - 80;
+        Zone->cameraBoundsL[0]      = (self->position.x >> 16) - ScreenInfo->center.x;
 
         Music_TransitionTrack(TRACK_MINIBOSS, 0.0125);
         RSDK.PlaySfx(CrimsonEye->sfxElevator, false, 255);

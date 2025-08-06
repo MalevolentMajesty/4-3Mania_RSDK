@@ -9,6 +9,7 @@ struct ObjectMainMenu {
     RSDK_OBJECT
     EntityUIControl *menuControl;
     EntityUIButtonPrompt *confirmPrompt;
+    EntityUIButtonPrompt *backPrompt;
     EntityUIDiorama *diorama;
 };
 

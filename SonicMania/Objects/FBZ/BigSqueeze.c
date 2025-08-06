@@ -340,8 +340,8 @@ void BigSqueeze_StateManager_SetupIntro(void)
 
         Zone->playerBoundActiveL[0] = true;
         Zone->playerBoundActiveR[0] = true;
-        Zone->cameraBoundsL[0]      = (self->position.x >> 16) - WIDE_SCR_XCENTER;
-        Zone->cameraBoundsR[0]      = (self->position.x >> 16) + 308;
+        Zone->cameraBoundsL[0]      = (self->position.x >> 16) - 160; // Changed to accomodate 4:3
+        Zone->cameraBoundsR[0]      = (self->position.x >> 16) + 254; // Changed to accomodate 4:3
         self->state                 = BigSqueeze_StateManager_SetupEggman;
     }
 }
@@ -393,9 +393,10 @@ void BigSqueeze_StateManager_SetupArena(void)
     if (eggman->state == Eggman_State_ProcessAnimation) {
         foreach_all(CollapsingPlatform, platform) { platform->active = ACTIVE_BOUNDS; }
 
-        Zone->cameraBoundsR[0] = (self->position.x >> 16) + WIDE_SCR_XCENTER;
+        Zone->cameraBoundsL[0] = (self->position.x >> 16) - 160; // Changed to accomodate 4:3
+        Zone->cameraBoundsR[0] = (self->position.x >> 16) + 160; // Changed to accomodate 4:3
         Zone->cameraBoundsB[0] = 1792;
-        Zone->cameraBoundsT[0] = Zone->cameraBoundsB[0] - ScreenInfo->size.y;
+        Zone->cameraBoundsT[0] = Zone->cameraBoundsB[0] - (240 - 32); // Changed to accomodate 4:3
 
         BigSqueeze->boundsB = (Zone->cameraBoundsB[0] - 16) << 16;
         eggman->state       = Eggman_State_ProcessThenSet;
@@ -422,13 +423,13 @@ void BigSqueeze_StateManager_SetupBoss(void)
 
                 case BIGSQUEEZE_CRUSHER_L:
                     boss->state      = BigSqueeze_StateCrusher_BeginCrushing;
-                    boss->velocity.x = 0x8000;
+                    boss->velocity.x = 0x5760; // Changed to match aspect ratio and space between crushers
                     boss->hitbox.top = -0x7FFF;
                     break;
 
                 case BIGSQUEEZE_CRUSHER_R:
                     boss->state      = BigSqueeze_StateCrusher_BeginCrushing;
-                    boss->velocity.x = -0x8000;
+                    boss->velocity.x = -0x5760; // Changed to match aspect ratio and space between crushers
                     boss->hitbox.top = -0x7FFF;
                     break;
             }

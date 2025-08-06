@@ -730,8 +730,22 @@ void UIControl_HandlePosition(void)
             self->position.y = self->targetPos.y;
     }
 
-    if (self->heading)
-        self->heading->position.x = self->position.x;
+    // if (self->heading)
+    //    self->heading->position.x = self->position.x;
+
+    // Lock heading X for horizontal scroll menus
+    if (self->heading) {
+        char tagBuffer[64];
+        RSDK.GetCString(tagBuffer, &self->tag);
+
+        if (
+            strcmp(tagBuffer, "Save Select") == 0 ||
+            strcmp(tagBuffer, "Encore Mode") == 0 ||
+            strcmp(tagBuffer, "Time Attack") == 0
+        ) {
+            self->heading->position.x = self->position.x;
+        }
+    }
 }
 
 void UIControl_ProcessButtonInput(void)

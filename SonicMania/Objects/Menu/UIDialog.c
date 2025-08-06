@@ -37,17 +37,17 @@ void UIDialog_Draw(void)
     switch (self->lineCount) {
         case 0:
         case 1:
-            drawPos.x = (self->position.x + 0x100000) + 0x100000;
+            drawPos.x = (self->position.x) + 0x140000; // Moves text to the left to match 4:3
             drawPos.y = self->position.y - 0x200000;
             break;
 
         case 2:
-            drawPos.x = (self->position.x + 0x100000) + 0x180000;
+            drawPos.x = (self->position.x) + 0x1C0000; // Moves text to the left to match 4:3
             drawPos.y = self->position.y - 0x280000;
             break;
 
         case 3:
-            drawPos.x = (self->position.x + 0x100000) + 0x200000;
+            drawPos.x = (self->position.x) + 0x240000; // Moves text to the left to match 4:3
             drawPos.y = self->position.y - 0x300000;
             break;
 
@@ -261,11 +261,12 @@ void UIDialog_DrawBGShapes(void)
     RSDK_THIS(UIDialog);
 
     RSDK.DrawRect(((ScreenInfo->position.x + ScreenInfo->center.x) << 16) - (self->bgRectSize.x >> 1),
-                  ((ScreenInfo->position.y + ScreenInfo->center.y) << 16) - (self->bgRectSize.y >> 1), self->bgRectSize.x, self->bgRectSize.y,
+                  ((ScreenInfo->position.y + ScreenInfo->center.y) << 16) - (self->bgRectSize.y >> 1), // Moves dialog box to the center of the screen
+                  self->bgRectSize.x, self->bgRectSize.y, // Moves dialog box to the center of the screen
                   self->useAltColor ? 0x282028 : 0x000000, 0xFF, INK_NONE, false);
 
     UIWidgets_DrawParallelogram(self->dialogPos.x + ((ScreenInfo->position.x + ScreenInfo->center.x) << 16),
-                                self->dialogPos.y + ((ScreenInfo->position.y + ScreenInfo->center.y) << 16), 0xC8, 0x8F, 0x8F, 0x30, 0xA0, 0xF0);
+                                self->dialogPos.y + ((ScreenInfo->position.y + ScreenInfo->center.y) << 16), 0xA2, 0x8F, 0x8F, 0x30, 0xA0, 0xF0); // Changes size of blue parallelogram
 }
 
 void UIDialog_HandleButtonPositions(void)
@@ -275,7 +276,7 @@ void UIDialog_HandleButtonPositions(void)
     int32 offsets[] = { 0, 0, 0x80, 0x70 };
 
     int32 offset = offsets[self->buttonCount] << 16;
-    int32 x      = self->position.x - 0x240000 + self->dialogPos.x - ((offset * MAX(self->buttonCount - 1, 0)) >> 1);
+    int32 x      = self->position.x + self->dialogPos.x - 0x160000 - ((offset * MAX(self->buttonCount - 1, 0)) >> 1); // Moves buttons to the left to match 4:3
     int32 y      = self->position.y + 0x2C0000 + self->dialogPos.y;
 
     for (int32 i = 0; i < UIDIALOG_OPTION_COUNT; ++i) {

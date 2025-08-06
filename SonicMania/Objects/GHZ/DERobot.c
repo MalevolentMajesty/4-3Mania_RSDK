@@ -186,10 +186,10 @@ void DERobot_StageLoad(void)
 void DERobot_HandleScreenBounds(void)
 {
     RSDK_THIS(DERobot);
-    int32 x = (self->position.x >> 16) - ScreenInfo->center.x + 128;
+    int32 x = (self->position.x >> 16) - ScreenInfo->center.x + 97; // Changed to accomodate 4:3
     if (x > Zone->cameraBoundsL[0]) {
         Zone->cameraBoundsL[0]                         = x;
-        Zone->cameraBoundsR[0]                         = ScreenInfo->size.x + 96 + x;
+        Zone->cameraBoundsR[0]                         = ScreenInfo->size.x + x; // Locks camera to 4:3
         Zone->playerBoundsL[0]                         = Zone->cameraBoundsL[0] << 16;
         Zone->playerBoundsR[0]                         = Zone->cameraBoundsR[0] << 16;
         Zone->playerBoundActiveB[0]                    = 0;
@@ -838,8 +838,8 @@ void DERobot_State_SetupArena(void)
         EntityPlayer *player1 = RSDK_GET_ENTITY(SLOT_PLAYER1, Player);
         if (player1->position.y <= self->position.y + 0x200000 && player1->state != Player_State_TubeRoll) {
             for (int32 i = 0; i < Player->playerCount; ++i) {
-                Zone->cameraBoundsL[i]      = (self->position.x >> 16) - ScreenInfo->center.x + 128;
-                Zone->cameraBoundsR[i]      = ScreenInfo->center.x + 128 + (self->position.x >> 16);
+                Zone->cameraBoundsL[i]      = (self->position.x >> 16) - ScreenInfo->center.x + 97; // Changed to accomodate 4:3
+                Zone->cameraBoundsR[i]      = ScreenInfo->center.x + 97 + (self->position.x >> 16); // Changed to accomodate 4:3
                 Zone->cameraBoundsB[i]      = self->position.y >> 16;
                 Zone->playerBoundsB[i]      = Zone->cameraBoundsB[i] << 16;
                 Zone->playerBoundActiveL[i] = true;
@@ -1379,7 +1379,7 @@ void DERobot_EditorDraw(void)
 
             if (showGizmos()) {
                 RSDK_DRAWING_OVERLAY(true);
-                DrawHelpers_DrawArenaBounds(-WIDE_SCR_XCENTER + 128, -SCREEN_YSIZE, WIDE_SCR_XCENTER + 128, 0, 1 | 0 | 4 | 8, 0x00C0F0);
+                DrawHelpers_DrawArenaBounds(-WIDE_SCR_XCENTER + 97, -SCREEN_YSIZE, WIDE_SCR_XCENTER + 97, 0, 1 | 0 | 4 | 8, 0x00C0F0); // Changed to accomodate 4:3
 
                 int32 slot = RSDK.GetEntitySlot(self);
                 for (int32 i = -7; i < 7; ++i) {

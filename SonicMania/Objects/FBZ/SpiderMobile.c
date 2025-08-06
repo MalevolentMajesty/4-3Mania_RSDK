@@ -699,15 +699,18 @@ void SpiderMobile_StateBody_AwaitPlayer(void)
         if (abs(player1->position.y - self->position.y) <= 0xA00000) {
             self->timer = 0;
 
+            int32 centerX = FROM_FIXED(self->position.x); // Added to help lock camera on arena
+            int32 centerY = FROM_FIXED(self->position.y); // Added to help lock camera on arena
+
             Zone->playerBoundActiveL[0] = true;
             Zone->playerBoundActiveR[0] = true;
-            Zone->cameraBoundsL[0]      = FROM_FIXED(self->position.x) - WIDE_SCR_XCENTER;
-            Zone->cameraBoundsR[0]      = FROM_FIXED(self->position.x) + WIDE_SCR_XCENTER;
+            Zone->cameraBoundsL[0]      = centerX - 160; // Changed to accomodate 4:3
+            Zone->cameraBoundsR[0]      = centerX + 160; // Changed to accomodate 4:3
             Zone->cameraBoundsT[0]      = FROM_FIXED(self->position.y) - ScreenInfo->size.y;
             Zone->cameraBoundsB[0]      = FROM_FIXED(self->position.y);
 
-            SpiderMobile->boundsL = TO_FIXED(Zone->cameraBoundsL[0] + 64);
-            SpiderMobile->boundsR = TO_FIXED(Zone->cameraBoundsR[0] - 64);
+            SpiderMobile->boundsL = TO_FIXED(Zone->cameraBoundsL[0]); // Changed to accomodate 4:3
+            SpiderMobile->boundsR = TO_FIXED(Zone->cameraBoundsR[0]); // Changed to accomodate 4:3
             SpiderMobile->boundsM = self->position.x;
             SpiderMobile->boundsT = TO_FIXED(Zone->cameraBoundsT[0] + 48);
             SpiderMobile->boundsB = TO_FIXED(Zone->cameraBoundsB[0] - 8);
@@ -759,8 +762,11 @@ void SpiderMobile_StateBody_SetupArena(void)
                 barrier->position.y += offsetY;
             }
 
-            Zone->cameraBoundsL[0] += offsetX >> 16;
-            Zone->cameraBoundsR[0] += offsetX >> 16;
+            int32 centerX = FROM_FIXED(self->position.x); // Changed to accomodate 4:3
+            int32 centerY = FROM_FIXED(self->position.y); // Changed to accomodate 4:3
+
+            Zone->cameraBoundsL[0] = centerX - 160; // Changed to accomodate 4:3
+            Zone->cameraBoundsR[0] = centerX + 160; // Changed to accomodate 4:3
             Zone->cameraBoundsT[0] += offsetY >> 16;
             Zone->cameraBoundsB[0] += offsetY >> 16;
             Zone->playerBoundsL[0] += offsetX;
