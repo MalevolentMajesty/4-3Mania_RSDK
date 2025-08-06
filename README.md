@@ -1,3 +1,10 @@
+<img src=/logo.png alt="Woah there">
+*Because one woman wanted to play Sonic Mania on her CRT*
+
+This is a modified version of the Sonic Mania decompilation (by Rubberduckycooly & co.) which modifies many .c files within the project to make the game work within a 4:3 aspect ratio, including arena & timing changes to bosses to accomodate, some small fixes for the narrower width, and other changes. This mod is not intended to work alone, instead, requiring a seperate mod for the Mania Mod Loader / in-game mod loader with tileset/scene edits, along with the ability to manually tweak your settings to render the game in 4:3. You can find the mod to pair, including a readme to change your video settings in the Releases section.
+
+The following in the readme is from the regular decompilation readme, left untouched.
+
 # **SUPPORT THE OFFICIAL RELEASE OF SONIC MANIA (PLUS)**
 + Without assets from the official releases, this decompilation will not run.
 
